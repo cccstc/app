@@ -1,0 +1,4 @@
+storePassword=KEY_STORE_PASSWORD
+keyPassword=KEY_PASSWORD
+keyAlias=key
+storeFile=/path/to/key.jks

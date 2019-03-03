@@ -75,7 +75,7 @@ class RecordScreenState extends State<RecordScreen> {
         record.content,
         style: TextStyle(fontSize: 16.0),
       ),
-      trailing: const Icon(Icons.headset),
+      trailing: Icon(record.audio == "" ? Icons.headset_off : Icons.headset),
       onTap: () => _pushAudioURL(record),
     );
   }
@@ -93,17 +93,19 @@ class RecordScreenState extends State<RecordScreen> {
   }
 
   void _pushAudioURL(Record record) {
-    Navigator.of(context).push(
-      new MaterialPageRoute<void>(
-        builder: (context) => new WebviewScaffold(
-              url: record.audio,
-              withZoom: true,
-              appBar: new AppBar(
-                title: new Text(record.date),
+    if (record.audio != "") {
+      Navigator.of(context).push(
+        new MaterialPageRoute<void>(
+          builder: (context) => new WebviewScaffold(
+                url: record.audio,
+                withZoom: true,
+                appBar: new AppBar(
+                  title: new Text(record.date),
+                ),
               ),
-            ),
-      ),
-    );
+        ),
+      );
+    }
   }
 }
 

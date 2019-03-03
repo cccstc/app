@@ -14,13 +14,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:flutter_pdf_viewer/flutter_pdf_viewer.dart';
+import "package:flutter_pdf_viewer/flutter_pdf_viewer.dart";
 
 const FEEDBACK_FORM_URL =
     "https://docs.google.com/forms/d/e/1FAIpQLSdhtehxsi4p7vzWLlIbClcOt8Z2Mr0jgaDuceGfweQStWY0MQ/viewform";
@@ -103,10 +102,10 @@ class BookletScreenState extends State<BookletScreen> {
 
   void _pushViewBookletPDF(Booklet booklet) async {
     if (Platform.isAndroid) {
-      Uint8List pdfBytes = await FlutterPdfViewer.downloadAsBytes(
-        booklet.pdfUrl,
-      );
-      FlutterPdfViewer.loadBytes(pdfBytes);
+      http.Client httpClient = new http.Client();
+      var req = await httpClient.get(booklet.pdfUrl);
+      var bytes = req.bodyBytes;
+      PdfViewer.loadBytes(bytes);
     } else {
       Navigator.of(context).push(
         new MaterialPageRoute<void>(
